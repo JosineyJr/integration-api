@@ -1,0 +1,11 @@
+{
+  "name": "PipeDrive-Bling-Integration-API",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/JosineyJr/PipeDrive-Bling-Integration-API.git",
+  "author": "Josiney Mafra <josiney.mafra@gcbinvestimentos.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "git-cz": "^4.7.6"
+  }
+}
