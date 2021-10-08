@@ -12,6 +12,7 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
+    "max-classes-per-file": "off",
     "arrow-body-style": "off",
     "arrow-parens": "off",
     "@typescript-eslint/no-explicit-any": "off",
