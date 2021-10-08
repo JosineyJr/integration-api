@@ -16,7 +16,11 @@
     "resolveJsonModule": true,
     "allowUnreachableCode": true,
     "noUnusedLocals": false,
-    "noUnusedParameters": false
+    "noUnusedParameters": false,
+    "paths": {
+      "@/tests/*": ["../tests/*"],
+      "@/*": ["*"]
+    }
   },
   "include": ["./src/**/*.ts"],
   "exclude": ["./test/**/*.spec.ts"]
