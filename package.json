@@ -6,6 +6,7 @@
   "author": "Josiney Mafra <josiney.mafra@gcbinvestimentos.com>",
   "license": "MIT",
   "devDependencies": {
-    "git-cz": "^4.7.6"
+    "git-cz": "^4.7.6",
+    "typescript": "^4.4.3"
   }
 }
