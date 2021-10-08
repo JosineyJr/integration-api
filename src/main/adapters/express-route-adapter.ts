@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { IController } from '@/presentation/protocols/';
+import { IController } from '@/application/protocols';
 
 export const adaptRoute = (controller: IController) => {
   return async (req: Request, res: Response) => {
