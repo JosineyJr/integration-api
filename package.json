@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/JosineyJr/PipeDrive-Bling-Integration-API.git",
-  "author": "Josiney Mafra <josiney.mafra@gcbinvestimentos.com>",
+  "author": "Josiney Mafra",
   "license": "MIT",
   "devDependencies": {
     "@types/express": "^4.17.13",
