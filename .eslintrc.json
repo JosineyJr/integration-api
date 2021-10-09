@@ -29,6 +29,7 @@
     "import/prefer-default-export": "off",
     "camelcase": "off",
     "class-methods-use-this": "off",
+    "@typescript-eslint/prefer-namespace-keyword": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     "@typescript-eslint/no-unused-vars": [
       "error",
