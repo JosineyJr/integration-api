@@ -14,6 +14,7 @@ import {
   TransactionNotFoundError,
 } from '@/infra/database/postgres/helpers';
 import env from '@/main/config/env';
+import { ormconfig } from './ormconfig';
 
 export class PgConnection implements IDbTransaction {
   private static instance?: PgConnection;
@@ -33,7 +34,7 @@ export class PgConnection implements IDbTransaction {
   async connect(): Promise<void> {
     this.connection = getConnectionManager().has(env.connectionName)
       ? getConnection(env.connectionName)
-      : await createConnection(env.connectionName);
+      : await createConnection(ormconfig);
   }
 
   async disconnect(): Promise<void> {
