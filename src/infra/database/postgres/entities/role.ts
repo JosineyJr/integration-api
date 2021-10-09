@@ -6,7 +6,7 @@ export class PgRole {
   @PrimaryGeneratedColumn('increment')
   id!: number;
 
-  @Column()
+  @Column({ unique: true })
   name!: string;
 
   @Column({ name: 'created_at' })
