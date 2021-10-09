@@ -1,10 +1,12 @@
+type User = { id: string; name: string; email: string };
+
 export namespace AddUser {
   export type Params = {
     name: string;
     email: string;
     password: string;
   };
-  export type Result = boolean;
+  export type Result = User;
 }
 
 export interface IAddUser {
