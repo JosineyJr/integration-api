@@ -1,7 +1,7 @@
 export namespace LoadUserByToken {
   export type Params = {
     accessToken: string;
-    role_id: number;
+    role: string;
   };
 
   export type Result = {
