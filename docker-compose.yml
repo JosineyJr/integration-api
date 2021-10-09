@@ -42,6 +42,18 @@ services:
     networks:
       - main
 
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://mongo_db:27017/pipedrive-bling-integration-api
+    depends_on:
+      - mongo_db
+    networks:
+      - main
+
   api:
     container_name: api-container
     image: node:14
@@ -67,3 +79,5 @@ networks:
 volumes:
   pgadmin:
   postgres-data:
+  mongodb_master_data:
+    driver: local
