@@ -41,5 +41,6 @@ export namespace SignUpController {
     email: string;
     password: string;
     passwordConfirmation: string;
+    roleId: number;
   };
 }
