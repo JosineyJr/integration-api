@@ -1,6 +1,6 @@
 import { IEmailValidator, IValidator } from '@/application/protocols';
 import { IAddUser } from '@/domain/use-cases';
-import { ok } from '../helpers';
+import { created } from '../helpers';
 import { ValidationBuilder } from '../validation/builder';
 import { Controller } from './controller';
 
@@ -13,7 +13,7 @@ export class SignUpController extends Controller {
   async perform({ email, name, password }: SignUpController.Request) {
     const user = await this.addUser.add({ email, name, password });
 
-    return ok(user);
+    return created(user);
   }
 
   override buildValidators({
