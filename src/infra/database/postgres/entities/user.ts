@@ -21,7 +21,7 @@ export class PgUser {
   password!: string;
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
+  createdAt!: Date;
 
   @DeleteDateColumn({ name: 'deleted_at' })
   deletedAt?: Date;
