@@ -12,6 +12,7 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
+    "object-curly-newline": "off",
     "no-useless-return": "off",
     "max-len": "off",
     "@typescript-eslint/no-namespace": "off",
