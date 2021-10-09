@@ -26,3 +26,10 @@ export class EmailInUseError extends Error {
     this.name = 'EmailInUseError';
   }
 }
+
+export class FieldsDoNotMatchError extends Error {
+  constructor(readonly fieldName: string, readonly fieldToCompare: string) {
+    super(`Field ${fieldName} and ${fieldToCompare} do not match`)
+    this.name = 'FieldsDoNotMatchError'
+  }
+}

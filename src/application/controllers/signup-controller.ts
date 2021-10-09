@@ -1,16 +1,36 @@
-import { HttpResponse, IController } from '@/application/protocols';
+import { IEmailValidator, IValidator } from '@/application/protocols';
 import { IAddUser } from '@/domain/use-cases';
 import { ok } from '../helpers';
+import { ValidationBuilder } from '../validation/builder';
+import { Controller } from './controller';
 
 // eslint-disable-next-line import/export
-export class SignUpController implements IController {
-  constructor(private readonly addUser: IAddUser) {}
+export class SignUpController extends Controller {
+  constructor(private readonly addUser: IAddUser, private readonly emailValidator: IEmailValidator) {
+    super();
+  }
 
-  async handle(request: SignUpController.Request): Promise<HttpResponse> {
-    const { email, password, name } = request;
+  async perform({ email, name, password }: SignUpController.Request) {
     const user = await this.addUser.add({ email, name, password });
 
     return ok(user);
+  }
+
+  override buildValidators({
+    email,
+    password,
+    name,
+    passwordConfirmation,
+  }: SignUpController.Request): Array<IValidator> {
+    return [
+      ...ValidationBuilder.of({ fieldName: 'email', value: email }).required().email(this.emailValidator).build(),
+      ...ValidationBuilder.of({ fieldName: 'password', value: password })
+        .required()
+        .compareTo({ valueToCompare: passwordConfirmation, fieldToCompare: 'passwordConfirmation' })
+        .build(),
+      ...ValidationBuilder.of({ fieldName: 'passwordConfirmation', value: passwordConfirmation }).required().build(),
+      ...ValidationBuilder.of({ fieldName: 'name', value: name }).required().build(),
+    ];
   }
 }
 

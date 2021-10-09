@@ -1,8 +1,8 @@
-import { IController } from '@/application/protocols';
+import { Controller } from '@/application/controllers';
 import { LogMongoRepository } from '@/infra/database/mongo-db/log-mongo-repository';
 import { LogControllerDecorator } from '@/main/decorators';
 
-export const makeLogControllerDecorator = (controller: IController): IController => {
+export const makeLogControllerDecorator = (controller: Controller): Controller => {
   const logMongoRepository = new LogMongoRepository();
   return new LogControllerDecorator(controller, logMongoRepository);
 };
