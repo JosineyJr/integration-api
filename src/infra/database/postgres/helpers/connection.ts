@@ -68,6 +68,6 @@ export class PgConnection implements IDbTransaction {
     if (this.connection === undefined) throw new ConnectionNotFoundError();
     if (this.query !== undefined) return this.query.manager.getRepository(entity);
 
-    return getRepository(entity);
+    return getRepository(entity, env.connectionName);
   }
 }
