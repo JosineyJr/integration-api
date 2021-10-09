@@ -21,15 +21,21 @@ export class SignUpController extends Controller {
     password,
     name,
     passwordConfirmation,
+    roleId,
   }: SignUpController.Request): Array<IValidator> {
     return [
       ...ValidationBuilder.of({ fieldName: 'email', value: email }).required().email(this.emailValidator).build(),
       ...ValidationBuilder.of({ fieldName: 'password', value: password })
         .required()
         .compareTo({ valueToCompare: passwordConfirmation, fieldToCompare: 'passwordConfirmation' })
+        .beOfType('string')
         .build(),
-      ...ValidationBuilder.of({ fieldName: 'passwordConfirmation', value: passwordConfirmation }).required().build(),
-      ...ValidationBuilder.of({ fieldName: 'name', value: name }).required().build(),
+      ...ValidationBuilder.of({ fieldName: 'passwordConfirmation', value: passwordConfirmation })
+        .required()
+        .beOfType('string')
+        .build(),
+      ...ValidationBuilder.of({ fieldName: 'name', value: name }).required().beOfType('string').build(),
+      ...ValidationBuilder.of({ fieldName: 'roleId', value: roleId }).required().beOfType('number').build(),
     ];
   }
 }
