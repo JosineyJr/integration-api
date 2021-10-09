@@ -8,11 +8,13 @@ import 'reflect-metadata';
 PgConnection.getInstance()
   .connect()
   .then(async () => {
+    console.log('Postgres connected');
     MongoHelper.connect(env.mongoUri)
       .then(async () => {
+        console.log('Mongodb connected');
         const { setupApp } = await import('./config/app');
         const app = await setupApp();
-        app.listen(env.port, () => console.log(`Server running at http://localhost:${env.port}`));
+        app.listen(env.port, () => console.log(`Server running at http://localhost:${env.port}/api`));
       })
       .catch(console.error);
   })
