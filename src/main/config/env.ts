@@ -1,6 +1,7 @@
 export default {
   port: process.env.APPLICATION_PORT || 3032,
-  jwtSecret: process.env.JWT_SECRET || '307eb648-937a-451b-9e5f-f8a6e46b96fb',
+  customerJwtSecret: process.env.ADMIN_JWT_SECRET || '377a4bee-1aec-4668-9cb8-823868228342',
+  adminJwtSecret: process.env.CUSTOMER_JWT_SECRET || 'e5348e71-52fb-49ca-9898-a84af6a9e14f',
   connectionName: process.env.CONNECTION_NAME || 'pg',
   mongoUri: process.env.MONGO_URI || `mongodb://${process.env.TS_NODE_DEV === undefined ? 'mongo_db' : 'localhost'}:27017/pipedrive-bling-integration-api`,
   pg_port: process.env.POSTGRES_PORT || 5432,
