@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  pg_db:
+    image: postgres
+    container_name: postgres-container
+    restart: always
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - ./data/:/data/postgres
+
+  mongo_db:
+    container_name: mongo-container
+    image: mongo:3
+    restart: always
+    volumes:
+      - ./data:/data/db
+    ports:
+      - 27017:27017
+
+  api:
+    container_name: api-container
+    image: node:14
+    working_dir: /usr/src/pipedrive-bling-integration-api
+    restart: always
+    command: bash -c "yarn start"
+    environment:
+      - MONGO_URI=mongodb://mongo_db:27017/pipedrive-bling-integration-api
+    volumes:
+      - ./dist/:/usr/src/pipedrive-bling-integration-api/dist/
+      - ./package.json:/usr/src/pipedrive-bling-integration-api/package.json
+    ports:
+      - ${APPLICATION_PORT}:${APPLICATION_PORT}
+    links:
+      - pg_db
+      - mongo_db
