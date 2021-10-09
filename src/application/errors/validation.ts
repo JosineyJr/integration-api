@@ -29,7 +29,14 @@ export class EmailInUseError extends Error {
 
 export class FieldsDoNotMatchError extends Error {
   constructor(readonly fieldName: string, readonly fieldToCompare: string) {
-    super(`Field ${fieldName} and ${fieldToCompare} do not match`)
-    this.name = 'FieldsDoNotMatchError'
+    super(`Field ${fieldName} and ${fieldToCompare} do not match`);
+    this.name = 'FieldsDoNotMatchError';
+  }
+}
+
+export class IncorrectFieldTypeError extends Error {
+  constructor(readonly fieldType: string, readonly expectedType: string, readonly fieldName: string) {
+    super(`Field type is ${fieldType} but expected ${expectedType}`);
+    this.name = 'IncorrectFieldTypeError'
   }
 }
