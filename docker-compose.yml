@@ -6,13 +6,30 @@ services:
     container_name: postgres-container
     restart: always
     ports:
-      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+      - 5432:5432
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - ./data/:/data/postgres
+    networks:
+      - main
+
+  pgadmin:
+    image: dpage/pgadmin4:4.23
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@pgadmin.com
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_LISTEN_PORT: 81
+    ports:
+      - 15432:81
+    volumes:
+      - ./data/pgadmin:/var/lib/pgadmin
+    depends_on:
+      - pg_db
+    networks:
+      - main
 
   mongo_db:
     container_name: mongo-container
@@ -22,20 +39,31 @@ services:
       - ./data:/data/db
     ports:
       - 27017:27017
+    networks:
+      - main
 
   api:
     container_name: api-container
     image: node:14
     working_dir: /usr/src/pipedrive-bling-integration-api
     restart: always
-    command: bash -c "yarn start"
-    environment:
-      - MONGO_URI=mongodb://mongo_db:27017/pipedrive-bling-integration-api
+    command: bash -c "yarn && yarn start"
     volumes:
-      - ./dist/:/usr/src/pipedrive-bling-integration-api/dist/
+      - ./dist/:/usr/src/pipedrive-bling-integration-api/dist
       - ./package.json:/usr/src/pipedrive-bling-integration-api/package.json
+      - ./yarn.lock:/usr/src/pipedrive-bling-integration-api/yarn.lock
     ports:
-      - ${APPLICATION_PORT}:${APPLICATION_PORT}
-    links:
+      - 3032:3032
+    depends_on:
       - pg_db
       - mongo_db
+    networks:
+      - main
+
+networks:
+  main:
+    driver: bridge
+
+volumes:
+  pgadmin:
+  postgres-data:
