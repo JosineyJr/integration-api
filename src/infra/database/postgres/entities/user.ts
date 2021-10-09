@@ -12,14 +12,17 @@ export class PgUser {
   id!: string;
 
   @Column()
-  name: string;
+  name!: string;
 
   @Column()
   email!: string;
 
-  @CreateDateColumn()
+  @Column()
+  password!: string;
+
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @DeleteDateColumn()
-  deletedAt: Date;
+  @DeleteDateColumn({ name: 'deleted_at' })
+  deletedAt?: Date;
 }
