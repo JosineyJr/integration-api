@@ -10,11 +10,10 @@ export const ormconfig: ConnectionOptions = {
   password: env.pg_password,
   database: env.pg_db,
   synchronize: true,
+  migrationsRun: true,
   logging: true,
   entities: [
     `${process.env.TS_NODE_DEV === undefined ? 'dist' : 'src'}/infra/database/postgres/entities/index.{js,ts}`,
   ],
-  migrations: [
-    `${process.env.TS_NODE_DEV === undefined ? 'dist' : 'src'}/infra/database/postgres/seeds/index.{js,ts}`,
-  ],
+  migrations: [`${process.env.TS_NODE_DEV === undefined ? 'dist' : 'src'}/infra/database/postgres/seeds/index.{js,ts}`],
 };
