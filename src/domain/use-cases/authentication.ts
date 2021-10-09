@@ -9,3 +9,7 @@ export namespace Authentication {
     name: string;
   };
 }
+
+export interface IAuthentication {
+  auth: (authenticationParams: Authentication.Params) => Promise<Authentication.Result>
+}
