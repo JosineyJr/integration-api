@@ -69,6 +69,8 @@ services:
     depends_on:
       - pg_db
       - mongo_db
+      - mongo-express
+      - pgadmin
     networks:
       - main
 
