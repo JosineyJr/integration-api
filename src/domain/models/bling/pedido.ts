@@ -16,7 +16,7 @@ export type PedidoModel = {
   data?: string;
   data_saida?: string;
   data_prevista?: string;
-  numero?: string;
+  numero: string;
   numero_loja?: string;
   loja?: number;
   nat_operacao?: string;

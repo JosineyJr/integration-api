@@ -4,5 +4,5 @@ import { makeAxiosHttpClient } from './axiosHttpClient';
 
 export const makeBlingApi = (): BlingApi => {
   const convertObjectToXmlAdapter = new ConvertObjectToXmlAdapter();
-  return new BlingApi(makeAxiosHttpClient(), convertObjectToXmlAdapter);
+  return new BlingApi(makeAxiosHttpClient(), convertObjectToXmlAdapter, makeAxiosHttpClient());
 };

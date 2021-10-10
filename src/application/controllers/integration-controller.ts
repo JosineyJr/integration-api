@@ -1,7 +1,10 @@
 /* eslint-disable import/export */
+import { PedidoModel } from '@/domain/models';
+import { IGetPedidoByNumero } from '@/domain/models/bling/http';
 import { ICreatePedido } from '@/domain/models/bling/http/create-pedido';
 import { Status } from '@/domain/models/pipedrive';
 import { IGetAllDeals } from '@/domain/models/pipedrive/http';
+import { IAddPedido } from '@/domain/use-cases';
 import { IFilterDealsByStatus } from '@/domain/use-cases/filter-deals-by-status';
 import { ok } from '../helpers';
 import { HttpResponse } from '../protocols';
@@ -13,11 +16,13 @@ export class IntegrationController extends Controller {
     private readonly getAllDeals: IGetAllDeals,
     private readonly filterDealsByStatus: IFilterDealsByStatus,
     private readonly createPedido: ICreatePedido,
+    private readonly addPedido: IAddPedido,
+    private readonly getPedidoByNumero: IGetPedidoByNumero,
   ) {
     super();
   }
 
-  async perform({ pipeDrive }: Integration.Request): Promise<HttpResponse> {
+  async perform({ pipeDrive, bling }: Integration.Request): Promise<HttpResponse> {
     const { data } = await this.getAllDeals.getAllDeals({
       apiToken: pipeDrive.apiToken,
       companyDomain: pipeDrive.companyDomain,
@@ -30,14 +35,25 @@ export class IntegrationController extends Controller {
       status,
     });
 
-    let statusStringFormatted = status.toLowerCase();
-    statusStringFormatted = statusStringFormatted.charAt(0).toUpperCase() + statusStringFormatted.slice(1);
+    const addedPedidos: Array<PedidoModel> = [];
 
-    filteredDeals.forEach(deals => {
-      this.createPedido.create({ dealsData: deals });
-    });
+    await Promise.all(
+      filteredDeals.map(async deals => {
+        const { pedido } = await this.createPedido.create({ dealsData: deals });
 
-    return ok({ [`dealsWith${statusStringFormatted}Status`]: filteredDeals });
+        if (pedido) {
+          const { pedido: pedidoData } = await this.getPedidoByNumero.getPedidoByNumero({
+            apiKey: bling.apiKey,
+            numero: pedido.numero,
+          });
+          this.addPedido.add(pedidoData);
+          console.log(pedidoData);
+          addedPedidos.push(pedidoData);
+        }
+      }),
+    );
+
+    return ok(addedPedidos);
   }
 
   override buildValidators({ pipeDrive, bling }: Integration.Request): Array<IValidator> {
