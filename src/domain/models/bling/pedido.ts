@@ -22,4 +22,5 @@ export type PedidoModel = {
   nat_operacao?: string;
   numeroOrdemCompra?: string;
   outrasDespesas?: number;
+  totalvenda: number;
 };
