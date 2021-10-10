@@ -10,8 +10,8 @@ export class SignUpController extends Controller {
     super();
   }
 
-  async perform({ email, name, password }: SignUpController.Request) {
-    const user = await this.addUser.add({ email, name, password });
+  async perform({ email, name, password, roleId }: SignUpController.Request) {
+    const user = await this.addUser.add({ email, name, password, roleId });
 
     return created(user);
   }

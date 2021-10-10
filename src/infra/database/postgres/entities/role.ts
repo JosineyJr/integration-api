@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { PgUser } from './user';
 
 @Entity({ name: 'tb_roles' })
@@ -12,6 +12,6 @@ export class PgRole {
   @Column({ name: 'created_at' })
   createdAt!: Date;
 
-  @OneToOne(() => PgUser, user => user.role)
-  user!: PgUser;
+  @OneToMany(() => PgUser, user => user.role)
+  user!: Array<PgUser>;
 }

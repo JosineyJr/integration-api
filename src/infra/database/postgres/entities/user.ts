@@ -4,13 +4,14 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
-  OneToOne,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { IUser } from '@/domain/models/user';
 import { PgRole } from './role';
 
 @Entity({ name: 'tb_users' })
-export class PgUser {
+export class PgUser implements IUser {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
@@ -32,7 +33,7 @@ export class PgUser {
   @DeleteDateColumn({ name: 'deleted_at' })
   deletedAt?: Date;
 
-  @OneToOne(() => PgRole, role => role.user, { eager: true })
+  @ManyToOne(() => PgRole, role => role.user, { eager: true })
   @JoinColumn({ name: 'role_id', referencedColumnName: 'id' })
   role!: PgRole;
 }

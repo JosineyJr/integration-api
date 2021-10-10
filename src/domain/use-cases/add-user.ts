@@ -1,12 +1,13 @@
-type User = { id: string; name: string; email: string };
+import { IUser } from '../models/user';
 
 export namespace AddUser {
   export type Params = {
     name: string;
     email: string;
     password: string;
+    roleId: number;
   };
-  export type Result = User;
+  export type Result = IUser;
 }
 
 export interface IAddUser {
