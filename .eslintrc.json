@@ -13,6 +13,8 @@
   "plugins": ["@typescript-eslint"],
   "rules": {
     "operator-linebreak": "off",
+    "function-paren-newline":"off",
+    "implicit-arrow-linebreak": "off",
     "brace-style": "off",
     "object-curly-newline": "off",
     "no-useless-return": "off",
