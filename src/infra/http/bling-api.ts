@@ -5,12 +5,14 @@ import { IHttpGetClient, IHttpPostClient } from './client';
 import env from '@/main/config/env';
 import { GetAllPedidos, IGetAllPedidos } from '@/domain/models/bling/http/get-all-pedidos';
 import { GetPedidoByNumero, IGetPedidoByNumero } from '@/domain/models/bling/http';
+import { IAddPedido } from '@/domain/use-cases';
 
 export class BlingApi implements ICreatePedido, IGetAllPedidos, IGetPedidoByNumero {
   constructor(
     private readonly httpPostClient: IHttpPostClient,
     private readonly convertToXml: IObjectToXml,
     private readonly httpGetClient: IHttpGetClient,
+    private readonly addPedido: IAddPedido,
   ) {}
 
   async create({ dealsData, apiKey }: CreatePedido.Input): Promise<CreatePedido.Output> {
@@ -25,22 +27,20 @@ export class BlingApi implements ICreatePedido, IGetAllPedidos, IGetPedidoByNume
 
     const pedidoXml = this.convertToXml.convert({ pedidoObject });
 
-    const result = await this.httpPostClient.post({
+    await this.httpPostClient.post({
       url: 'https://bling.com.br/Api/v2/pedido/json/',
       params: { apikey: apiKey || env.blingApiKey, xml: pedidoXml },
     });
 
-    if (result.retorno.pedidos) {
-      return result.retorno.pedidos[0];
-    }
-
     const { pedidos: allPedidos } = await this.getAllPedidos({ apiKey });
 
-    const findPedido = allPedidos.find(p =>
+    const findPedido = allPedidos?.find(p =>
       p.pedido.itens.find(its => its.item.descricao === pedidoObject.itens[0].item.descricao),
     );
 
-    return findPedido?.pedido;
+    await this.addPedido.add(findPedido?.pedido as PedidoModel);
+
+    if (findPedido?.pedido) return findPedido?.pedido;
   }
 
   async getAllPedidos({ apiKey }: GetAllPedidos.Input): Promise<GetAllPedidos.Output> {

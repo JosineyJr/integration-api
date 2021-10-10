@@ -3,7 +3,6 @@ import { IGetPedidoByNumero } from '@/domain/models/bling/http';
 import { ICreatePedido } from '@/domain/models/bling/http/create-pedido';
 import { Status } from '@/domain/models/pipedrive';
 import { IGetAllDeals } from '@/domain/models/pipedrive/http';
-import { IAddPedido } from '@/domain/use-cases';
 import { IFilterDealsByStatus } from '@/domain/use-cases/filter-deals-by-status';
 import { IJobsProvider } from '@/infra/jobs';
 import { ok } from '../helpers';
@@ -16,7 +15,6 @@ export class IntegrationController extends Controller {
     private readonly getAllDeals: IGetAllDeals,
     private readonly filterDealsByStatus: IFilterDealsByStatus,
     private readonly createPedido: ICreatePedido,
-    private readonly addPedido: IAddPedido,
     private readonly getPedidoByNumero: IGetPedidoByNumero,
     private readonly jobsProvider: IJobsProvider,
   ) {
