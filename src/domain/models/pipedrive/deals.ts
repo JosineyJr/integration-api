@@ -2,7 +2,7 @@ export type Status = 'open' | 'won' | 'deleted' | 'lost';
 
 export type DealsModel = {
   title: string;
-  value?: string;
+  value: number;
   currency?: string;
   user_id?: number;
   person_id?: number;
@@ -13,5 +13,5 @@ export type DealsModel = {
   probability?: number;
   lost_reason?: string;
   visible_to: 1 | 3;
-  add_time?: Date;
+  add_time: Date;
 };

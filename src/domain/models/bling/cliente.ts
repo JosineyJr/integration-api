@@ -11,5 +11,5 @@ export type ClienteModel = {
   fone?: string;
   celular?: string;
   email?: string;
-  contribuinte: string;
+  contribuinte?: string;
 };

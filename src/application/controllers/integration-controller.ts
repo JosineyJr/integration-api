@@ -1,4 +1,5 @@
 /* eslint-disable import/export */
+import { ICreatePedido } from '@/domain/models/bling/http/create-pedido';
 import { Status } from '@/domain/models/pipedrive';
 import { IGetAllDeals } from '@/domain/models/pipedrive/http';
 import { IFilterDealsByStatus } from '@/domain/use-cases/filter-deals-by-status';
@@ -8,7 +9,11 @@ import { IValidator, ValidationBuilder } from '../validation';
 import { Controller } from './controller';
 
 export class IntegrationController extends Controller {
-  constructor(private readonly getAllDeals: IGetAllDeals, private readonly filterDealsByStatus: IFilterDealsByStatus) {
+  constructor(
+    private readonly getAllDeals: IGetAllDeals,
+    private readonly filterDealsByStatus: IFilterDealsByStatus,
+    private readonly createPedido: ICreatePedido,
+  ) {
     super();
   }
 
@@ -28,12 +33,17 @@ export class IntegrationController extends Controller {
     let statusStringFormatted = status.toLowerCase();
     statusStringFormatted = statusStringFormatted.charAt(0).toUpperCase() + statusStringFormatted.slice(1);
 
+    filteredDeals.forEach(deals => {
+      this.createPedido.create({ dealsData: deals });
+    });
+
     return ok({ [`dealsWith${statusStringFormatted}Status`]: filteredDeals });
   }
 
-  override buildValidators({ pipeDrive }: Integration.Request): Array<IValidator> {
+  override buildValidators({ pipeDrive, bling }: Integration.Request): Array<IValidator> {
     return [
       ...ValidationBuilder.of({ fieldName: 'pipeDrive', value: pipeDrive }).required().beOfType('object').build(),
+      ...ValidationBuilder.of({ fieldName: 'bling', value: bling }).required().beOfType('object').build(),
       ...ValidationBuilder.of({ fieldName: 'pipeDrive.apiToken', value: pipeDrive?.apiToken })
         .required()
         .beOfType('string')
@@ -45,6 +55,7 @@ export class IntegrationController extends Controller {
       ...ValidationBuilder.of({ fieldName: 'pipeDrive.filterByStatus', value: pipeDrive?.filterByStatus })
         .beOfType('string')
         .build(),
+      ...ValidationBuilder.of({ fieldName: 'bling.apiKey', value: bling?.apiKey }).beOfType('string').build(),
     ];
   }
 }
@@ -55,6 +66,9 @@ export namespace Integration {
       companyDomain: string;
       apiToken: string;
       filterByStatus?: Status;
+    };
+    bling: {
+      apiKey: string;
     };
   };
 }

@@ -8,8 +8,8 @@ export class AxiosHttpClient implements IHttpGetClient, IHttpPostClient {
     return result.data;
   }
 
-  async post({ url, data, headers }: HttpPostClient.Input): Promise<any> {
-    const result = await axios.post(url, data, { headers });
+  async post({ url, data, headers, params }: HttpPostClient.Input): Promise<any> {
+    const result = await axios.post(url, data, { headers, params });
 
     return result.data;
   }

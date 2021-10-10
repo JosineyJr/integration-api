@@ -1,7 +1,7 @@
 export type ParcelaModel = {
   dias?: number;
   data?: string;
-  vlr: string;
+  vlr: number;
   obs?: string;
   forma_pagamento?: { id: number };
 };

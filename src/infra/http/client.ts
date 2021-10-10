@@ -13,7 +13,8 @@ export namespace HttpPostClient {
   export type Input = {
     url: string;
     data?: Record<string, unknown>;
-    headers?: Record<string, string>;
+    headers?: any;
+    params?: Record<string, unknown>;
   };
 }
 

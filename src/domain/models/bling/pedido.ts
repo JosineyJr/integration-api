@@ -8,7 +8,7 @@ export type PedidoModel = {
   transporte?: TransporteModel;
   itens?: { item: Array<ItemModel> };
   parcelas?: { parcela: Array<ParcelaModel> };
-  idFormaPagamento: number;
+  idFormaPagamento?: number;
   vlr_frete?: string;
   vlr_desconto?: string;
   obs?: string;
