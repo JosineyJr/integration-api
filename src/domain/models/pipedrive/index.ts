@@ -1,1 +1,1 @@
-export * from './deal';
+export * from './deals';

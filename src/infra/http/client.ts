@@ -1,7 +1,7 @@
 export namespace HttpGetClient {
   export type Input = {
     url: string;
-    params: Record<string, unknown>;
+    params?: Record<string, unknown>;
   };
 }
 
