@@ -1,7 +1,6 @@
 import { badRequest, serverError } from '../helpers';
-import { IValidator } from '../protocols';
 import { HttpResponse } from '../protocols/http';
-import { ValidationComposite } from '../validation';
+import { IValidator, ValidationComposite } from '../validation';
 
 export abstract class Controller {
   abstract perform(httpRequest: any): Promise<HttpResponse>;

@@ -1,8 +1,8 @@
 /* eslint-disable import/export */
 import { IAuthentication } from '@/domain/use-cases';
 import { ok, unauthorized } from '../helpers';
-import { HttpResponse, IEmailValidator, IValidator } from '../protocols';
-import { ValidationBuilder } from '../validation';
+import { HttpResponse } from '../protocols';
+import { IEmailValidator, IValidator, ValidationBuilder } from '../validation';
 import { Controller } from './controller';
 
 export class LoginController extends Controller {

@@ -14,6 +14,7 @@
     "down": "docker-compose down"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^8.5.5",
@@ -35,6 +36,7 @@
     "typescript": "^4.4.3"
   },
   "dependencies": {
+    "axios": "^0.22.0",
     "bcrypt": "^5.0.1",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",

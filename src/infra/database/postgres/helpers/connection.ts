@@ -8,7 +8,7 @@ import {
   QueryRunner,
   Repository,
 } from 'typeorm';
-import { IDbTransaction } from '@/application/contracts';
+import { IDbTransaction } from '@/application/protocols';
 import {
   ConnectionNotFoundError,
   TransactionNotFoundError,

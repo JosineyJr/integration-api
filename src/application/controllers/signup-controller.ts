@@ -1,6 +1,6 @@
-import { IEmailValidator, IValidator } from '@/application/protocols';
 import { IAddUser } from '@/domain/use-cases';
 import { created } from '../helpers';
+import { IEmailValidator, IValidator } from '../validation';
 import { ValidationBuilder } from '../validation/builder';
 import { Controller } from './controller';
 
