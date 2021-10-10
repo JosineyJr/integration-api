@@ -18,12 +18,14 @@ export class IntegrationController extends Controller {
       companyDomain: pipeDrive.companyDomain,
     });
 
+    const status: Status = pipeDrive.filterByStatus ? pipeDrive.filterByStatus : 'won';
+
     const { filteredDeals } = this.filterDealsByStatus.filterByStatus({
       allDeals: data,
-      status: pipeDrive.filterByStatus,
+      status,
     });
 
-    let statusStringFormatted = pipeDrive.filterByStatus.toLowerCase();
+    let statusStringFormatted = status.toLowerCase();
     statusStringFormatted = statusStringFormatted.charAt(0).toUpperCase() + statusStringFormatted.slice(1);
 
     return ok({ [`dealsWith${statusStringFormatted}Status`]: filteredDeals });
@@ -41,7 +43,6 @@ export class IntegrationController extends Controller {
         .beOfType('string')
         .build(),
       ...ValidationBuilder.of({ fieldName: 'pipeDrive.filterByStatus', value: pipeDrive?.filterByStatus })
-        .required()
         .beOfType('string')
         .build(),
     ];
@@ -53,7 +54,7 @@ export namespace Integration {
     pipeDrive: {
       companyDomain: string;
       apiToken: string;
-      filterByStatus: Status;
+      filterByStatus?: Status;
     };
   };
 }

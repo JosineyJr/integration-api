@@ -6,7 +6,7 @@ export class TypeValidation implements IValidator {
 
   validate(): Error | undefined {
     const fieldType = typeof this.value;
-    if (fieldType !== this.expectedType) {
+    if (fieldType !== 'undefined' && fieldType !== this.expectedType) {
       return new IncorrectFieldTypeError(fieldType, this.expectedType, this.fieldName);
     }
   }
