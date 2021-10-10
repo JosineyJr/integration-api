@@ -1,8 +1,8 @@
 import { PedidoModel } from '../pedido';
 
 export namespace GetAllPedidos {
-  export type Input = { apiKey: string };
-  export type Output = { pedidos: Array<PedidoModel> };
+  export type Input = { apiKey?: string };
+  export type Output = { pedidos: Array<{ pedido: PedidoModel }> };
 }
 
 export interface IGetAllPedidos {

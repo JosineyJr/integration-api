@@ -3,7 +3,7 @@ import { PedidoModel } from '../pedido';
 
 export namespace CreatePedido {
   export type Input = { dealsData: DealsModel, apiKey?: string };
-  export type Output = { pedido: PedidoModel | undefined };
+  export type Output = PedidoModel | undefined;
 }
 
 export interface ICreatePedido {

@@ -7,8 +7,6 @@ export class PedidoMongoRepository implements IAddPedidoRepository {
   async add(pedido: PedidoModel): Promise<AddPedido.Result> {
     const pedidosCollection = MongoHelper.getCollection('pedidos');
     const added = await pedidosCollection.insertOne(pedido);
-    console.log(await pedidosCollection.find().toArray());
-
     return !!added;
   }
 }

@@ -6,7 +6,7 @@ import { TransporteModel } from './transporte';
 export type PedidoModel = {
   cliente: ClienteModel;
   transporte?: TransporteModel;
-  itens?: { item: Array<ItemModel> };
+  itens: Array<{ item: ItemModel }>;
   parcelas?: { parcela: Array<ParcelaModel> };
   idFormaPagamento?: number;
   vlr_frete?: string;

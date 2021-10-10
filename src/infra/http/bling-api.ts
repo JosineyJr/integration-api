@@ -16,11 +16,11 @@ export class BlingApi implements ICreatePedido, IGetAllPedidos, IGetPedidoByNume
   async create({ dealsData, apiKey }: CreatePedido.Input): Promise<CreatePedido.Output> {
     const pedidoObject: PedidoModel = {
       cliente: { nome: 'user', email: 'email' },
-      itens: {
-        item: [{ descricao: dealsData.title, qtde: 1, vlr_unit: dealsData.value, vlr_desconto: 0, codigo: '001' }],
-      },
       parcelas: { parcela: [{ vlr: dealsData.value, data: dealsData.add_time.toString() }] },
       obs: dealsData.status,
+      itens: [
+        { item: { descricao: dealsData.title, qtde: 1, vlr_unit: dealsData.value, vlr_desconto: 0, codigo: '001' } },
+      ],
     } as PedidoModel;
 
     const pedidoXml = this.convertToXml.convert({ pedidoObject });
@@ -30,13 +30,27 @@ export class BlingApi implements ICreatePedido, IGetAllPedidos, IGetPedidoByNume
       params: { apikey: apiKey || env.blingApiKey, xml: pedidoXml },
     });
 
-    return { pedido: result.retorno.pedidos ? result.retorno.pedidos[0] : undefined };
+    if (result.retorno.pedidos) {
+      return result.retorno.pedidos[0];
+    }
+
+    const { pedidos: allPedidos } = await this.getAllPedidos({ apiKey });
+
+    const findPedido = allPedidos.find(p =>
+      p.pedido.itens.find(its => its.item.descricao === pedidoObject.itens[0].item.descricao),
+    );
+
+    return findPedido?.pedido;
   }
 
   async getAllPedidos({ apiKey }: GetAllPedidos.Input): Promise<GetAllPedidos.Output> {
-    const result = await this.httpGetClient.get({ url: `https://bling.com.br/Api/v2/pedidos/json/?apikey=${apiKey}` });
+    const result = await this.httpGetClient.get({
+      url: `https://bling.com.br/Api/v2/pedidos/json/?apikey=${apiKey || env.blingApiKey}`,
+    });
 
-    return { pedidos: result.retorno.pedidos };
+    const pedidos = result.retorno.pedidos as Array<{ pedido: PedidoModel }>;
+
+    return { pedidos };
   }
 
   async getPedidoByNumero({ numero, apiKey }: GetPedidoByNumero.Param): Promise<GetPedidoByNumero.Result> {

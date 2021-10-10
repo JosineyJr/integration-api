@@ -1,11 +1,11 @@
 /* eslint-disable import/export */
-import { PedidoModel } from '@/domain/models';
 import { IGetPedidoByNumero } from '@/domain/models/bling/http';
 import { ICreatePedido } from '@/domain/models/bling/http/create-pedido';
 import { Status } from '@/domain/models/pipedrive';
 import { IGetAllDeals } from '@/domain/models/pipedrive/http';
 import { IAddPedido } from '@/domain/use-cases';
 import { IFilterDealsByStatus } from '@/domain/use-cases/filter-deals-by-status';
+import { IJobsProvider } from '@/infra/jobs';
 import { ok } from '../helpers';
 import { HttpResponse } from '../protocols';
 import { IValidator, ValidationBuilder } from '../validation';
@@ -18,11 +18,12 @@ export class IntegrationController extends Controller {
     private readonly createPedido: ICreatePedido,
     private readonly addPedido: IAddPedido,
     private readonly getPedidoByNumero: IGetPedidoByNumero,
+    private readonly jobsProvider: IJobsProvider,
   ) {
     super();
   }
 
-  async perform({ pipeDrive, bling }: Integration.Request): Promise<HttpResponse> {
+  async perform({ pipeDrive }: Integration.Request): Promise<HttpResponse> {
     const { data } = await this.getAllDeals.getAllDeals({
       apiToken: pipeDrive.apiToken,
       companyDomain: pipeDrive.companyDomain,
@@ -35,25 +36,14 @@ export class IntegrationController extends Controller {
       status,
     });
 
-    const addedPedidos: Array<PedidoModel> = [];
+    await Promise.all(filteredDeals.map(async deals => this.jobsProvider.add({ data: deals })));
+    this.jobsProvider.processJobs({
+      concurrency: 1,
+      callback: (job: any) => this.createPedido.create({ dealsData: job }),
+      details: 'creating pedidos...',
+    });
 
-    await Promise.all(
-      filteredDeals.map(async deals => {
-        const { pedido } = await this.createPedido.create({ dealsData: deals });
-
-        if (pedido) {
-          const { pedido: pedidoData } = await this.getPedidoByNumero.getPedidoByNumero({
-            apiKey: bling.apiKey,
-            numero: pedido.numero,
-          });
-          this.addPedido.add(pedidoData);
-          console.log(pedidoData);
-          addedPedidos.push(pedidoData);
-        }
-      }),
-    );
-
-    return ok(addedPedidos);
+    return ok({ message: 'Pedidos will be added to bling if they have not yet been registered' });
   }
 
   override buildValidators({ pipeDrive, bling }: Integration.Request): Array<IValidator> {
