@@ -12,6 +12,7 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
+    "operator-linebreak": "off",
     "brace-style": "off",
     "object-curly-newline": "off",
     "no-useless-return": "off",
