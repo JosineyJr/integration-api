@@ -5,5 +5,5 @@ import { makeIntegrationController } from '../factories/controllers/integration-
 
 export default (router: Router): void => {
   router.post('/integrate', adaptRoute(makeIntegrationController()));
-  router.get('/integrated', adaptRoute(makeIntegratedController()));
+  router.get('/collections/pedidos', adaptRoute(makeIntegratedController()));
 };
