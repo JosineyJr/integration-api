@@ -1,10 +1,10 @@
 export const unauthorized = {
-  description: 'Credenciais inválidas',
+  description: 'Invalid Credentials',
   content: {
     'application/json': {
       schema: {
-        $ref: '#/schemas/error'
-      }
-    }
-  }
-}
+        $ref: '#/schemas/error',
+      },
+    },
+  },
+};

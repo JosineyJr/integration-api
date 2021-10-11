@@ -1,10 +1,10 @@
 export const badRequest = {
-  description: 'Requisição inválida',
+  description: 'Invalid request',
   content: {
     'application/json': {
       schema: {
-        $ref: '#/schemas/error'
-      }
-    }
-  }
-}
+        $ref: '#/schemas/error',
+      },
+    },
+  },
+};

@@ -95,7 +95,6 @@ make start-app
 * DDD
 * Modular Design
 * Use Cases
-* Dependency Diagrams
 
 - - -
 
