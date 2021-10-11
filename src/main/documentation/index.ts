@@ -26,7 +26,7 @@ export default {
   tags: [
     {
       name: 'Login',
-      description: 'Login related API',
+      description: 'Login related API - email: admin@admin.com password: admin',
     },
     {
       name: 'Integration',
