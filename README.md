@@ -5,7 +5,7 @@
 
 </p>
 <div align=center>
-    <a href="#desc">Description</a> | <a href="#prerequisites">Prerequisites</a> | <a href="#running">Running</a> | <a href="#endpoints">Endpoints</a> | <a href="#principles">Principles</a> | <a href="#designPatterns">Design Patterns</a> | <a href="#methodologiesDesigns">Methodologies & Designs</a>
+    <a href="#desc">Description</a> | <a href="#prerequisites">Prerequisites</a> | <a href="#running">Running</a> | <a href="#endpoints">Endpoints</a> | <a href="#principles">Principles</a> | <a href="#designPatterns">Design Patterns</a> | <a href="#methodologiesDesigns">Methodologies & Designs</a> | <a href="#librariesFrameworks">Libraries and Frameworks</a>
 </div>
 <br>
 <hr>
@@ -96,3 +96,26 @@ make start-app
 * Modular Design
 * Use Cases
 * Dependency Diagrams
+
+- - -
+
+<h2 id="librariesFrameworks">
+ Libraries and Frameworks
+</h2>
+
+* NPM
+* Typescript
+* Git
+* Docker
+* MongoDb
+* Postgres
+* Bcrypt
+* JsonWebToken
+* Validator
+* Express
+* Axios
+* Eslint
+* Rimraf
+* Redis
+* Bull
+* Fast xml parser
