@@ -3,6 +3,7 @@ import { IGetPedidoByNumero } from '@/domain/models/bling/http';
 import { ICreatePedido } from '@/domain/models/bling/http/create-pedido';
 import { Status } from '@/domain/models/pipedrive';
 import { IGetAllDeals } from '@/domain/models/pipedrive/http';
+import { IUser } from '@/domain/models/user';
 import { IFilterDealsByStatus } from '@/domain/use-cases/filter-deals-by-status';
 import { IJobsProvider } from '@/infra/jobs';
 import { ok } from '../helpers';
@@ -21,7 +22,7 @@ export class IntegrationController extends Controller {
     super();
   }
 
-  async perform({ pipeDrive }: Integration.Request): Promise<HttpResponse> {
+  async perform({ pipeDrive, bling, user }: Integration.Request): Promise<HttpResponse> {
     const { data } = await this.getAllDeals.getAllDeals({
       apiToken: pipeDrive.apiToken,
       companyDomain: pipeDrive.companyDomain,
@@ -37,7 +38,8 @@ export class IntegrationController extends Controller {
     await Promise.all(filteredDeals.map(async deals => this.jobsProvider.add({ data: deals })));
     this.jobsProvider.processJobs({
       concurrency: 1,
-      callback: (job: any) => this.createPedido.create({ dealsData: job }),
+      callback: (job: any) =>
+        this.createPedido.create({ dealsData: job, email: user.email, userName: user.name, apiKey: bling.apiKey }),
       details: 'creating pedidos...',
     });
 
@@ -74,5 +76,6 @@ export namespace Integration {
     bling: {
       apiKey: string;
     };
+    user: IUser;
   };
 }

@@ -15,9 +15,9 @@ export class BlingApi implements ICreatePedido, IGetAllPedidos, IGetPedidoByNume
     private readonly addPedido: IAddPedido,
   ) {}
 
-  async create({ dealsData, apiKey }: CreatePedido.Input): Promise<CreatePedido.Output> {
+  async create({ dealsData, apiKey, userName, email }: CreatePedido.Input): Promise<CreatePedido.Output> {
     const pedidoObject: PedidoModel = {
-      cliente: { nome: 'user', email: 'email' },
+      cliente: { nome: userName, email },
       parcelas: { parcela: [{ vlr: dealsData.value, data: dealsData.add_time.toString() }] },
       obs: dealsData.status,
       itens: [
