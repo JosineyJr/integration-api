@@ -18,13 +18,14 @@ export class PgUserRepository
     let user = new PgUser();
     Object.assign(user, userData);
     user = await pgUserRepo.save(user);
-    const userEager = await pgUserRepo.findOne(user.id) as IUser;
+    const userEager = (await pgUserRepo.findOne(user.id)) as IUser;
 
     return userEager;
   }
 
   async loadById({ id }: LoadUserByIdRepository.Params): Promise<LoadUserByIdRepository.Result> {
     const pgUserRepo = this.getRepository(PgUser);
+    console.log(id);
     const user = await pgUserRepo.findOne(id);
 
     return { user };
