@@ -3,12 +3,25 @@ version: "3"
 services:
   redis:
     image: redis:alpine
+    container_name: redis-container
     command: redis-server
     ports:
       - 6379:6379
     volumes:
       - redis-data:/data
       - redis-conf:/usr/local/etc/redis/redis.conf
+    networks:
+      - main
+
+  redisinsight:
+    image: redislabs/redisinsight:latest
+    container_name: redisinsight-container
+    ports:
+      - 8001:8001
+    depends_on:
+      - redis
+    networks:
+      - main
 
   pg_db:
     image: postgres
@@ -68,14 +81,18 @@ services:
     image: node:14
     working_dir: /usr/src/pipedrive-bling-integration-api
     restart: always
-    command: bash -c "yarn && yarn start"
+    command: bash -c "yarn && yarn build &&yarn start"
     volumes:
-      - ./dist/:/usr/src/pipedrive-bling-integration-api/dist
+      - ./src:/usr/src/pipedrive-bling-integration-api/src/
       - ./package.json:/usr/src/pipedrive-bling-integration-api/package.json
       - ./yarn.lock:/usr/src/pipedrive-bling-integration-api/yarn.lock
+      - ./tsconfig-build.json:/usr/src/pipedrive-bling-integration-api/tsconfig-build.json
+      - ./tsconfig.json:/usr/src/pipedrive-bling-integration-api/tsconfig.json
     ports:
       - 3032:3032
     depends_on:
+      - redis
+      - redisinsight
       - pg_db
       - mongo_db
       - mongo-express
