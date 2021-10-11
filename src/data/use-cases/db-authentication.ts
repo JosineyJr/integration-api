@@ -16,7 +16,7 @@ export class DbAuthentication implements IAuthentication {
       const isValid = await this.hashComparer.compare(password, user.password);
       if (isValid) {
         const secret = user.role.name === 'admin' ? env.adminJwtSecret : env.customerJwtSecret;
-        const accessToken = await this.encrypter.encrypt(user.id, secret);
+        const accessToken = await this.encrypter.encrypt({ id: user.id, name: user.name, email: user.email }, secret);
         return { accessToken, name: user.name };
       }
     }

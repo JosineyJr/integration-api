@@ -25,7 +25,6 @@ export class PgUserRepository
 
   async loadById({ id }: LoadUserByIdRepository.Params): Promise<LoadUserByIdRepository.Result> {
     const pgUserRepo = this.getRepository(PgUser);
-    console.log(id);
     const user = await pgUserRepo.findOne(id);
 
     return { user };

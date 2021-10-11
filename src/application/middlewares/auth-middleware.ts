@@ -17,8 +17,8 @@ export class AuthMiddleware implements IMiddleware {
       const { accessToken } = httpRequest;
       if (accessToken) {
         const secret = this.role === 'admin' ? env.adminJwtSecret : env.customerJwtSecret;
-        const userId = await this.decrypter.decrypt(accessToken, secret);
-        const user = await this.loadUserById.loadById({ id: userId });
+        const { id } = await this.decrypter.decrypt(accessToken, secret);
+        const user = await this.loadUserById.loadById({ id });
         if (user) return ok({ user });
       }
       return forbidden(new AccessDeniedError());

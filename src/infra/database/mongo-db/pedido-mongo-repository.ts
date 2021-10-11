@@ -13,8 +13,6 @@ export class PedidoMongoRepository implements IAddPedidoRepository, IGetAllPedid
   async add(pedido: PedidoModel): Promise<AddPedido.Result> {
     pedido.totalvenda = parseFloat(pedido.totalvenda.toString());
 
-    console.log(typeof pedido.totalvenda);
-
     const pedidosCollection = MongoHelper.getCollection('pedidos');
     const added = await pedidosCollection.insertOne(pedido);
     return !!added;
@@ -31,8 +29,6 @@ export class PedidoMongoRepository implements IAddPedidoRepository, IGetAllPedid
       .build();
 
     const pedidosResult = await pedidosCollection.aggregate(query).toArray();
-
-    console.log(pedidosResult);
 
     return pedidosResult as Array<PedidoModel>;
   }
