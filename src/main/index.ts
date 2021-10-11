@@ -17,6 +17,9 @@ PgConnection.getInstance()
         app.listen(env.port, () => {
           console.log(`Server running at http://localhost:${env.port}/api`)
           console.log(`Api documentation at http://localhost:${env.port}/api-docs`)
+          console.log(`Mongo express running at http://localhost:${env.mongoExpressPort}`)
+          console.log(`Pgadmin running at http://localhost:${env.pgadminPort}`)
+          console.log(`Redisinsight running at http://localhost:${env.redisInsightPort}`)
         });
       })
       .catch(console.error);

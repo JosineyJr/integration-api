@@ -16,4 +16,7 @@ export default {
   blingApiKey: process.env.BLING_API_KEY || '3e32fd3bf46d21020bea4929dccc0f0d16e05f00d22aa312d1a1b354702f6c7e554bf093',
   redisHost: process.env.TS_NODE_DEV === undefined ? 'redis' : 'localhost',
   redisPort: 6379,
+  redisInsightPort: 8001,
+  pgadminPort: 15432,
+  mongoExpressPort: 8081,
 };
