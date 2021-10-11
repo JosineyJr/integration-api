@@ -1,11 +1,15 @@
 import Bull, { Job, Queue } from 'bull';
 import { IJobsProvider, JobsProvider } from '../jobs-provider';
+import env from '@/main/config/env';
 
 export class BullJobsAdapter implements IJobsProvider {
   private readonly jobs: Queue;
 
   constructor(readonly name: string) {
-    this.jobs = new Bull(this.name, { redis: { port: 6379, host: '127.0.0.1' }, limiter: { max: 1, duration: 3000 } });
+    this.jobs = new Bull(this.name, {
+      redis: { port: env.redisPort, host: env.redisHost },
+      limiter: { max: 1, duration: 3000 },
+    });
     this.jobs.on('completed', (job: Job, result: any) => {
       console.log(`job ${job.id} completed with result`, result);
     });
