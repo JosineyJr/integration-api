@@ -13,7 +13,7 @@
     Description
 </h2>
 
-Restful API unsing [Node.js](https://nodejs.org/en/) and [express](https://www.npmjs.com/package/express) framework
+Restful API developed using [Node.js](https://nodejs.org/en/) and [express](https://www.npmjs.com/package/express) framework
 - - -
 <h2 id="prerequisites">
   Prerequisites
