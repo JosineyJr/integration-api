@@ -1,5 +1,10 @@
 export const integrationPath = {
   post: {
+    security: [
+      {
+        apiKeyAuth: [],
+      },
+    ],
     tags: ['Integration'],
     summary: 'API to realize bling and pipedrive integration',
     description: 'This route can be run by **authenticated users only**',

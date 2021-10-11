@@ -1,5 +1,10 @@
 export const collectionsPedidosPath = {
   get: {
+    security: [
+      {
+        apiKeyAuth: [],
+      },
+    ],
     tags: ['Integration'],
     summary: 'API to retrieves consolidated data from MongoDB pedidos collection',
     description: 'This route can be run by **authenticated users only**',
