@@ -4,6 +4,7 @@ import {
   integrationParamsSchema,
   integrationResponseUserSchema,
   errorSchema,
+  collectionsPedidosSchema,
 } from './schemas/';
 
 export default {
@@ -12,4 +13,5 @@ export default {
   integrationParams: integrationParamsSchema,
   authenticatedUser: authenticatedUserSchema,
   error: errorSchema,
+  collectionsPedidos: collectionsPedidosSchema,
 };
