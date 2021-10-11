@@ -15,7 +15,7 @@ PgConnection.getInstance()
         const { setupApp } = await import('./config/app');
         const app = await setupApp();
         app.listen(env.port, () => {
-          console.log(`Server running at http://localhost:${env.port}/api`)
+          console.log(`Server running at port ${env.port}`)
           console.log(`Api documentation at http://localhost:${env.port}/api-docs`)
           console.log(`Mongo express running at http://localhost:${env.mongoExpressPort}`)
           console.log(`Pgadmin running at http://localhost:${env.pgadminPort}`)
