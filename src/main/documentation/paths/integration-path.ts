@@ -9,7 +9,7 @@ export const integrationPath = {
     summary: 'API to realize bling and pipedrive integration',
     description: 'This route can be run by **authenticated users only**',
     requestBody: {
-      required: true,
+      required: false,
       content: {
         'application/json': {
           schema: {

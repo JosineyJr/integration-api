@@ -25,11 +25,11 @@ export class IntegrationController extends Controller {
 
   async perform({ pipeDrive, bling, user }: Integration.Request): Promise<HttpResponse> {
     const { data } = await this.getAllDeals.getAllDeals({
-      apiToken: pipeDrive.apiToken || env.pipeDriveApiToken,
-      companyDomain: pipeDrive.companyDomain || env.pipeDriveCompanyDomain,
+      apiToken: pipeDrive?.apiToken || env.pipeDriveApiToken,
+      companyDomain: pipeDrive?.companyDomain || env.pipeDriveCompanyDomain,
     });
 
-    const status: Status = pipeDrive.filterByStatus ? pipeDrive.filterByStatus : 'won';
+    const status: Status = pipeDrive?.filterByStatus ? pipeDrive?.filterByStatus : 'won';
 
     const { filteredDeals } = this.filterDealsByStatus.filterByStatus({
       allDeals: data,
@@ -44,7 +44,7 @@ export class IntegrationController extends Controller {
           dealsData: job,
           email: user.email,
           userName: user.name,
-          apiKey: bling.apiKey || env.blingApiKey,
+          apiKey: bling?.apiKey || env.blingApiKey,
         }),
       details: 'creating pedidos...',
     });
