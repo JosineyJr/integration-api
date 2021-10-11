@@ -47,9 +47,11 @@ make start-app
 </h2>
 
 
-1.  ***POST*** `api/integration`
+1.  ***POST*** `api/login`
+    - Authenticate the user.
+2.  ***POST*** `api/integration`
     - Executes the integration.
-2.  ***GET*** `api/collections/pedidos`
+3.  ***GET*** `api/collections/pedidos`
     - Retrieves consolidated data from MongoDB collection.
 - - - -
 
