@@ -10,6 +10,7 @@ import { ok } from '../helpers';
 import { HttpResponse } from '../protocols';
 import { IValidator, ValidationBuilder } from '../validation';
 import { Controller } from './controller';
+import env from '@/main/config/env';
 
 export class IntegrationController extends Controller {
   constructor(
@@ -24,8 +25,8 @@ export class IntegrationController extends Controller {
 
   async perform({ pipeDrive, bling, user }: Integration.Request): Promise<HttpResponse> {
     const { data } = await this.getAllDeals.getAllDeals({
-      apiToken: pipeDrive.apiToken,
-      companyDomain: pipeDrive.companyDomain,
+      apiToken: pipeDrive.apiToken || env.pipeDriveApiToken,
+      companyDomain: pipeDrive.companyDomain || env.pipeDriveCompanyDomain,
     });
 
     const status: Status = pipeDrive.filterByStatus ? pipeDrive.filterByStatus : 'won';
@@ -39,7 +40,12 @@ export class IntegrationController extends Controller {
     this.jobsProvider.processJobs({
       concurrency: 1,
       callback: (job: any) =>
-        this.createPedido.create({ dealsData: job, email: user.email, userName: user.name, apiKey: bling.apiKey }),
+        this.createPedido.create({
+          dealsData: job,
+          email: user.email,
+          userName: user.name,
+          apiKey: bling.apiKey || env.blingApiKey,
+        }),
       details: 'creating pedidos...',
     });
 
@@ -48,14 +54,12 @@ export class IntegrationController extends Controller {
 
   override buildValidators({ pipeDrive, bling }: Integration.Request): Array<IValidator> {
     return [
-      ...ValidationBuilder.of({ fieldName: 'pipeDrive', value: pipeDrive }).required().beOfType('object').build(),
-      ...ValidationBuilder.of({ fieldName: 'bling', value: bling }).required().beOfType('object').build(),
+      ...ValidationBuilder.of({ fieldName: 'pipeDrive', value: pipeDrive }).beOfType('object').build(),
+      ...ValidationBuilder.of({ fieldName: 'bling', value: bling }).beOfType('object').build(),
       ...ValidationBuilder.of({ fieldName: 'pipeDrive.apiToken', value: pipeDrive?.apiToken })
-        .required()
         .beOfType('string')
         .build(),
       ...ValidationBuilder.of({ fieldName: 'pipeDrive.companyDomain', value: pipeDrive?.companyDomain })
-        .required()
         .beOfType('string')
         .build(),
       ...ValidationBuilder.of({ fieldName: 'pipeDrive.filterByStatus', value: pipeDrive?.filterByStatus })

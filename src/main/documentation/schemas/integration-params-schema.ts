@@ -6,9 +6,11 @@ export const integrationParamsSchema = {
       properties: {
         apiToken: {
           type: 'string',
+          required: false,
         },
         companyDomain: {
           type: 'string',
+          required: false,
         },
       },
     },
@@ -17,6 +19,7 @@ export const integrationParamsSchema = {
       properties: {
         apiKey: {
           type: 'string',
+          required: false,
         },
       },
     },
