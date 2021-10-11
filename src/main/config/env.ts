@@ -14,6 +14,8 @@ export default {
   pg_user: process.env.POSTGRES_USER || 'postgres',
   pg_password: process.env.POSTGRES_PASSWORD || 'docker',
   blingApiKey: process.env.BLING_API_KEY || '3e32fd3bf46d21020bea4929dccc0f0d16e05f00d22aa312d1a1b354702f6c7e554bf093',
+  pipeDriveApiToken: '5d45b8464aa21d5e78429f8151336f29b748529c',
+  pipeDriveCompanyDomain: 'a82',
   redisHost: process.env.TS_NODE_DEV === undefined ? 'redis' : 'localhost',
   redisPort: 6379,
   redisInsightPort: 8001,
